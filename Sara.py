@@ -6,18 +6,28 @@ from wx.lib.intctrl import IntCtrl
 class Interface(wx.Frame):
     def __init__(Self, title="Sara Leide", name = "Sara Leide"):
         wx.Frame.__init__(Self, None, title=title, name=name)
-        produto = wx.Menu()
-        produto.Append(5000, "Novo produto")
-        ajuda = wx.Menu()
-        ajuda.Append(5001, "&Sobre")
-        menubarra = wx.MenuBar()
-        menubarra.Append(produto, "&Produto")
-        menubarra.Append(ajuda, "&Ajuda")
-        Self.SetMenuBar(menubarra)
-        Self.Bind(wx.EVT_MENU, Self.coleta_dados, id=5000)
-        Self.Bind(wx.EVT_MENU, Self.sobre, id=5001)
+        Self.montarEstruturaDeMenus()
+        Self.tornarAEstruturaDeMenusVisivel()
+        Self.atribuirEventosAosMenus()
         Self.Show()
-    def coleta_dados(Self, v):
+
+    def montarEstruturaDeMenus(Self):
+        Self.produto = wx.Menu()
+        Self.produto.Append(5000, "Novo produto")
+        Self.ajuda = wx.Menu()
+        Self.ajuda.Append(5001, "&Sobre")
+        Self.menubarra = wx.MenuBar()
+        Self.menubarra.Append(Self.produto, "&Produto")
+        Self.menubarra.Append(Self.ajuda, "&Ajuda")
+
+    def tornarAEstruturaDeMenusVisivel(Self):
+        Self.SetMenuBar(Self.menubarra)
+
+    def atribuirEventosAosMenus(Self):
+        Self.Bind(wx.EVT_MENU, Self.coletarDados, id=5000)
+        Self.Bind(wx.EVT_MENU, Self.sobre, id=5001)
+
+    def coletarDados(Self, v):
         dialogo = wx.Dialog(Self, -1, title="Adicionar produto", name="Adicionar produto")
         Self.texto_estatico_produto = wx.StaticText(dialogo, label="Digite o produto:")
         Self.formula_produto = wx.TextCtrl(dialogo, -1, name="Digite o produto:")
